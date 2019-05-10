@@ -7,7 +7,7 @@
 
 ###### :memo:`npm start or yarn start`
 
-###### :computer::computer::computer: running port 8080 :computer::computer::computer:
+###### :computer::computer::computer: running `http://localhost:3000` :computer::computer::computer:
 
 [![cap1.png](https://i.postimg.cc/W1T0jVZC/cap1.png)](https://postimg.cc/TpNKqZCJ)
 
