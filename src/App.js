@@ -13,7 +13,7 @@ const newObj = (newData) =>{
     //let zOrder = (item.source != '../img/symbol/original/116.png') ? 20 : 2
     let DataSource = (item.source != '../img/symbol/original/116.png') ? "3" : "1"
     let datafield = (item.source != '../img/symbol/original/116.png') ? "STATUS_STATE" : "CUR_VALUE"
-    if(item.category == 'valve')
+    if(item.category == 'valve' || item.source == '../img/symbol/original/62.png')
       return { 
           ...item,
           DataSource,
@@ -110,7 +110,7 @@ class App extends React.Component{
           
         </div>
         <div style={{textAlign: 'center', margin:0}}>
-        <Button color="primary" style={{margin:5}} outline onClick={()=> console.log(JSON.parse(this.state.jsonOld))}>Check</Button>
+        <Button color="primary" style={{margin:5}} outline onClick={()=>this.setState({jsonNew: null,jsonOld: null})}>Clear</Button>
         <Button color="primary" style={{margin:5}} onClick={this.ConvertHandle}>Convert</Button>
         <CopyToClipboard text={JSON.stringify(this.state.jsonNew)}
           onCopy={() => this.setState({copied: true})}>
