@@ -1,8 +1,23 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Button,Badge } from 'reactstrap';
+import { Button,Badge,Input, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 import {CopyToClipboard} from 'react-copy-to-clipboard'
+import Select from 'react-select';
+
+const options = [
+  { value: '1', label: '1' },
+  { value: '2', label: '2' },
+  { value: '3', label: '3' },
+  { value: '4', label: '4' },
+];
+
+var state = (state)=>{
+  
+  return state
+
+}
+
 
 const newObj = (newData) =>{
   //console.log(JSON.parse(newData))
@@ -43,6 +58,24 @@ const newObj = (newData) =>{
 
 }
 
+const newThinkness = (Obj) => {
+  Obj = JSON.parse(Obj)
+  let linkDataArray = Obj.linkDataArray.map( item =>{
+  let Thikness = "2"
+  let scale = (parseInt(Thikness) < 4) ? 1 : 2
+  return {
+    ...item,
+    Thikness,
+    scale
+  }
+  })
+  return {
+    ...Obj,
+    linkDataArray,
+   
+  }
+}
+
 
 class App extends React.Component{
   constructor(props){
@@ -51,6 +84,8 @@ class App extends React.Component{
       jsonOld : null,
       jsonNew: null,
       copied: false,
+      thinkness: false,
+      selectedOption: null,
     }
   }
 
@@ -67,10 +102,19 @@ class App extends React.Component{
      jsonNew: NewData
    })
   }
-  CopyHandle = () =>{
-    
+ 
+  ThinknessConvert = () => {
+    let newData = newThinkness(this.state.jsonOld)
+    this.setState({
+      jsonNew: newData
+    })
+
   }
-  
+
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  }
 
   /*let NewObj = (newData) => {
     let nodeDataArray = newData.nodeDataArray.map((item)=>{
@@ -87,7 +131,7 @@ class App extends React.Component{
 }*/
 
   render(){
-    let {jsonNew} = this.state
+    const { selectedOption } = this.state;
   
   return (
     <div className="App">
@@ -103,15 +147,28 @@ class App extends React.Component{
           <div style={{flex:1,margin:5}}>
           <p style={{fontSize:20,margin:5}}>OUTPUT ObjectJSON  </p>
             <textarea placeholder="ss" value={JSON.stringify(this.state.jsonNew)}style={{borderRadius: 10,backgroundColor: '#282c34',color: '#fff',fontSize:10,flex:1, width: '100%',padding:10, height:500,overflow: 'hidden'}}>
-              
+
             </textarea>
 
           </div>
           
         </div>
         <div style={{textAlign: 'center', margin:0}}>
+        <div style={{borderStyle: 'solid', borderRadius: 10, width:500,margin: 'auto', borderWidth: 1,height:50, display:'block'}}>
+          
+          <input type="checkbox"  onChange={()=> this.setState({thinkness: !this.state.thinkness})}/><label style={{fontSize:18, padding: 10}}>Thinkness</label>
+          <div style={{width:100,height: 100, fontSize:10,color: '#000'}}>
+          <Select
+            value={selectedOption}
+            onChange={this.handleChange}
+            options={options}
+            
+          />
+            </div>
+        </div>
+        
         <Button color="primary" style={{margin:5}} outline onClick={()=>this.setState({jsonNew: null,jsonOld: null})}>Clear</Button>
-        <Button color="primary" style={{margin:5}} onClick={this.ConvertHandle}>Convert</Button>
+        <Button color="primary" style={{margin:5}} onClick={(this.state.thinkness) ? this.ThinknessConvert : this.ConvertHandle}>Convert</Button>
         <CopyToClipboard text={JSON.stringify(this.state.jsonNew)}
           onCopy={() => this.setState({copied: true})}>
           <Button color="info">{this.state.copied ? <span style={{color: 'red'}}>Copied.</span> : "CopyJson"}</Button>
