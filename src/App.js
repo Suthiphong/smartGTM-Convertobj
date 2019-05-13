@@ -12,11 +12,7 @@ const options = [
   { value: '4', label: '4' },
 ];
 
-var state = (state)=>{
-  
-  return state
 
-}
 
 
 const newObj = (newData) =>{
@@ -58,10 +54,10 @@ const newObj = (newData) =>{
 
 }
 
-const newThinkness = (Obj) => {
+const newThinkness = (Obj,thik) => {
   Obj = JSON.parse(Obj)
   let linkDataArray = Obj.linkDataArray.map( item =>{
-  let Thikness = "2"
+  let Thikness = thik.value.toString()
   let scale = (parseInt(Thikness) < 4) ? 1 : 2
   return {
     ...item,
@@ -86,12 +82,14 @@ class App extends React.Component{
       copied: false,
       thinkness: false,
       selectedOption: null,
+      value: '',
     }
   }
 
   textAreaHandle = (even) => {
     this.setState({
       jsonOld: even.target.value,
+      value: even.target.value,
       copied: false
     })
   }
@@ -104,7 +102,7 @@ class App extends React.Component{
   }
  
   ThinknessConvert = () => {
-    let newData = newThinkness(this.state.jsonOld)
+    let newData = newThinkness(this.state.jsonOld, this.state.selectedOption)
     this.setState({
       jsonNew: newData
     })
@@ -114,6 +112,7 @@ class App extends React.Component{
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
     console.log(`Option selected:`, selectedOption);
+    
   }
 
   /*let NewObj = (newData) => {
@@ -129,7 +128,14 @@ class App extends React.Component{
         nodeDataArray
     }
 }*/
+ ClearAllData = () => {
+   this.setState({
+    jsonNew: '',
+    jsonOld: '',
+    value: ''
 
+   })
+ }
   render(){
     const { selectedOption } = this.state;
   
@@ -137,15 +143,15 @@ class App extends React.Component{
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" style={{width:100, height:100, position: 'absolute'}}/><label style={{position:'absolute', fontSize:13,top:70,left:50}}><Badge color="secondary">ReactJS JINGJO</Badge></label>
-        <h1>SmartGTM Convert Object JSON</h1>
+        <h1>SmartGTM Convert OBJECT JSON</h1>
         <div className="display_code" style={{paddingLeft:50,paddingRight:50, paddingTop: 50, paddingBottom: 0,display: 'flex',flexDirection: 'row'}}>
           <div style={{flex:1,margin:5}}>
-            <p style={{fontSize:20,margin:5}}>INPUT ObjectJSON</p>
-            <textarea onChange={this.textAreaHandle} placeholder={"Example"+ JSON.stringify(data)}style={{borderRadius: 10,backgroundColor: '#282c34',color: '#fff',fontSize:10,flex:1, width: '100%',padding:10, height:500,overflow: 'hidden'}}>
+            <p style={{fontSize:20,margin:5}}>OBJECT INPUT</p>
+            <textarea value={this.state.value} onChange={this.textAreaHandle} placeholder={"Example"+ JSON.stringify(data)}style={{borderRadius: 10,backgroundColor: '#282c34',color: '#fff',fontSize:10,flex:1, width: '100%',padding:10, height:500,overflow: 'hidden'}}>
             </textarea>
           </div>
           <div style={{flex:1,margin:5}}>
-          <p style={{fontSize:20,margin:5}}>OUTPUT ObjectJSON  </p>
+          <p style={{fontSize:20,margin:5}}>OBJECT OUTPUT</p>
             <textarea placeholder="ss" value={JSON.stringify(this.state.jsonNew)}style={{borderRadius: 10,backgroundColor: '#282c34',color: '#fff',fontSize:10,flex:1, width: '100%',padding:10, height:500,overflow: 'hidden'}}>
 
             </textarea>
@@ -167,8 +173,8 @@ class App extends React.Component{
             </div>
         </div>
         
-        <Button color="primary" style={{margin:5}} outline onClick={()=>this.setState({jsonNew: null,jsonOld: null})}>Clear</Button>
-        <Button color="primary" style={{margin:5}} onClick={(this.state.thinkness) ? this.ThinknessConvert : this.ConvertHandle}>Convert</Button>
+        <Button color="primary" style={{margin:5}} outline onClick={this.ClearAllData}>Clear</Button>
+        <Button color={(this.state.jsonNew) ? "success" : "primary"} style={{margin:5}} onClick={(this.state.thinkness) ? this.ThinknessConvert : this.ConvertHandle}>{(this.state.jsonNew) ? "Success" : "Covert"}</Button>
         <CopyToClipboard text={JSON.stringify(this.state.jsonNew)}
           onCopy={() => this.setState({copied: true})}>
           <Button color="info">{this.state.copied ? <span style={{color: 'red'}}>Copied.</span> : "CopyJson"}</Button>
