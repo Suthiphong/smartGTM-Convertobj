@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { Button,Badge,Input, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
+import { Button,Badge} from 'reactstrap';
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import Select from 'react-select';
 
@@ -22,15 +22,15 @@ const newObj = (newData) =>{
 
   let nodeDataArray = newData.nodeDataArray.map((item)=>{
     //let zOrder = (item.source != '../img/symbol/original/116.png') ? 20 : 2
-    let DataSource = (item.source != '../img/symbol/original/116.png') ? "3" : "1"
-    let datafield = (item.source != '../img/symbol/original/116.png') ? "STATUS_STATE" : "CUR_VALUE"
-    if(item.category == 'valve' || item.source == '../img/symbol/original/62.png')
+    let DataSource = (item.source !== '../img/symbol/original/116.png') ? "3" : "1"
+    let datafield = (item.source !== '../img/symbol/original/116.png') ? "STATUS_STATE" : "CUR_VALUE"
+    if(item.category === 'valve' || item.source === '../img/symbol/original/62.png')
       return { 
           ...item,
           DataSource,
           datafield
       }
-    if(item.category == 'static_text' || item.category == 'text_nomodel' || item.category == 'HyperLink')
+    if(item.category === 'static_text' || item.category === 'text_nomodel' || item.category === 'HyperLink')
     {
       let format = '###0.0000 U'
       return {
@@ -143,16 +143,16 @@ class App extends React.Component{
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" style={{width:100, height:100, position: 'absolute'}}/><label style={{position:'absolute', fontSize:13,top:70,left:50}}><Badge color="secondary">ReactJS JINGJO</Badge></label>
-        <h1>SmartGTM Convert OBJECT JSON</h1>
+        <label style={{fontSize:13}}>SmartGTMExtension</label>
         <div className="display_code" style={{paddingLeft:50,paddingRight:50, paddingTop: 50, paddingBottom: 0,display: 'flex',flexDirection: 'row'}}>
           <div style={{flex:1,margin:5}}>
             <p style={{fontSize:20,margin:5}}>OBJECT INPUT</p>
-            <textarea value={this.state.value} onChange={this.textAreaHandle} placeholder={"Example"+ JSON.stringify(data)}style={{borderRadius: 10,backgroundColor: '#282c34',color: '#fff',fontSize:10,flex:1, width: '100%',padding:10, height:500,overflow: 'hidden'}}>
+            <textarea value={this.state.value} onChange={this.textAreaHandle} placeholder={"Example"+ JSON.stringify(data)}style={{borderRadius: 10,backgroundColor: '#282c34',color: '#fff',fontSize:10,flex:1, width: '100%',padding:10, height:100,overflow: 'hidden'}}>
             </textarea>
           </div>
           <div style={{flex:1,margin:5}}>
           <p style={{fontSize:20,margin:5}}>OBJECT OUTPUT</p>
-            <textarea placeholder="ss" value={JSON.stringify(this.state.jsonNew)}style={{borderRadius: 10,backgroundColor: '#282c34',color: '#fff',fontSize:10,flex:1, width: '100%',padding:10, height:500,overflow: 'hidden'}}>
+            <textarea placeholder="ss" value={JSON.stringify(this.state.jsonNew)}style={{borderRadius: 10,backgroundColor: '#282c34',color: '#fff',fontSize:10,flex:1, width: '100%',padding:10, height:100,overflow: 'hidden'}}>
 
             </textarea>
 
