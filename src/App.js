@@ -24,7 +24,7 @@ const newObj = (newData) =>{
     //let zOrder = (item.source != '../img/symbol/original/116.png') ? 20 : 2
     let DataSource = (item.source !== '../img/symbol/original/116.png') ? "3" : "1"
     let datafield = (item.source !== '../img/symbol/original/116.png') ? "STATUS_STATE" : "CUR_VALUE"
-    if(item.category === 'valve' || item.source === '../img/symbol/original/62.png')
+    if(item.category === 'valve' || item.source === '../img/symbol/original/62.png' || item.source === '../img/symbol/original/803.png')
       return { 
           ...item,
           DataSource,
